@@ -36,13 +36,10 @@ def delete_story(story_id):
 
 init_db()
 
-# --- 2. THE ADMIN LOCK (THIS HIDES THE BUTTONS) ---
+# --- 2. THE ADMIN LOCK ---
 with st.sidebar:
     st.title("🔐 Access Control")
     st.markdown("Only the Admin can delete stories from the library.")
-    
-    # The 'is_admin' variable starts as False
-    # Change 'admin123' to your preferred secret password
     pwd = st.text_input("Admin Password", type="password")
     is_admin = (pwd == "admin123") 
     
@@ -75,23 +72,36 @@ with tab1:
     c1, c2 = st.columns(2)
     with c1:
         kid_name = st.text_input("Adventurer Name", "Anaya")
-        world = st.selectbox("World", ["Cloud City", "Candy Forest", "Undersea Party"])
+        # --- FIXED DROPDOWN LIST ---
+        world = st.selectbox("World", [
+            "Cloud City", "Candy Forest", "Undersea Party", 
+            "Ninja Village", "Pokemon Training", "Peppa's Muddy Puddles", 
+            "Arendelle (Elsa & Anna)", "Rapunzel's Tower"
+        ])
     with c2:
         kid_hobby = st.text_input("Favorite Hobby", "reading")
         st.write("Ready to create your story?")
 
     if st.button("Generate Story ✨"):
-        # Triple quotes prevent "unterminated string" syntax errors
+        # --- FIXED STORY LOGIC FOR ALL WORLDS ---
         if world == "Cloud City":
-            story = f"""In the fluffy {world}, a hero named {kid_name} used {kid_hobby} 
-            to light up the sky and save the floating kingdom!"""
+            story = f"In the fluffy {world}, {kid_name} used {kid_hobby} to light up the sky and save the floating kingdom!"
         elif world == "Candy Forest":
-            story = f"""In the sweet {world}, {kid_name} found a chocolate path. 
-            By {kid_hobby}, they guided the gummy bears back to their village!"""
+            story = f"In the sweet {world}, {kid_name} found a chocolate path. By {kid_hobby}, they guided the gummy bears home!"
+        elif world == "Ninja Village":
+            story = f"In the hidden {world}, {kid_name} mastered the art of {kid_hobby} to protect the golden scroll!"
+        elif world == "Pokemon Training":
+            story = f"{kid_name} became a Pokemon master in {world} by using {kid_hobby} to win the final badge!"
+        elif world == "Peppa's Muddy Puddles":
+            story = f"Peppa Pig and {kid_name} jumped in the biggest muddy puddles because they both love {kid_hobby}!"
+        elif world == "Arendelle (Elsa & Anna)":
+            story = f"In frozen Arendelle, {kid_name} helped Elsa and Anna use {kid_hobby} to bring back summer!"
+        elif world == "Rapunzel's Tower":
+            story = f"{kid_name} climbed the tall tower and used {kid_hobby} to help Rapunzel see the floating lanterns!"
         else:
-            story = f"""In the deep {world}, {kid_name} threw a dance party. 
-            The fish joined in because they loved {kid_hobby}!"""
+            story = f"In the deep {world}, {kid_name} threw a dance party. The fish joined in because they loved {kid_hobby}!"
         
+        # --- FIXED IMAGE MAPPING ---
         image_map = {
             "Cloud City": "assets/cloudcity.jpg",
             "Candy Forest": "assets/candy.jpg",
@@ -102,6 +112,7 @@ with tab1:
             "Arendelle (Elsa & Anna)": "assets/frozen.jpg",
             "Rapunzel's Tower": "assets/rapunzel.jpg"
         }
+        img = image_map.get(world)
         
         st.divider()
         col_a, col_b = st.columns([1.5, 1])
@@ -109,7 +120,7 @@ with tab1:
             st.markdown(f'<div class="story-card">{story}</div>', unsafe_allow_html=True)
             st.success("Tale saved!")
         with col_b:
-            if os.path.exists(img):
+            if img and os.path.exists(img):
                 st.image(img)
             else:
                 st.info(f"Visual for {world}")
@@ -134,16 +145,11 @@ with tab2:
             left, right = st.columns([2, 1])
             with left:
                 st.write(stext)
-                
-                # --- CRITICAL: THE HIDE LOGIC ---
-                # This button ONLY renders if 'is_admin' is True
                 if is_admin:
                     st.divider()
                     if st.button(f"🗑️ Delete Story #{sid}", key=f"del_{sid}"):
                         delete_story(sid)
                         st.rerun()
-                # If is_admin is False, the code above is skipped entirely.
-                
             with right:
                 if spath and os.path.exists(spath):
                     st.image(spath)
