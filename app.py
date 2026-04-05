@@ -45,11 +45,11 @@ st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h
 tab1, tab2 = st.tabs(["✨ Create Magic", "📚 My Library"])
 
 with tab1:
-    # 1. WELCOME SECTION (Everyone sees this)
+    # 1. WELCOME SECTION (Visible to everyone)
     st.markdown("## 🌤️ Welcome to the Story Nest!")
     st.write("Step into a world of magic where **your child is the hero**.")
     
-    # 2. THE REQUEST BOX (New! Everyone sees this)
+    # 2. THE REQUEST BOX (Visible to everyone)
     with st.expander("✨ Request a Story for your Child"):
         guest_name = st.text_input("Child's Name", key="guest_n")
         guest_interest = st.text_input("What do they love? (e.g. Dinosaurs)", key="guest_i")
@@ -59,15 +59,31 @@ with tab1:
     st.info("👈 **Readers:** Click on the **📚 My Library** tab at the top to find your saved stories!")
     st.divider()
 
-    # 3. ADMIN SECTION (Only shows when password is correct)
+    # 3. ADMIN SECTION (Hidden until password entered)
     if is_admin:
         st.subheader("🛠️ Admin: Create a New Adventure")
         c1, c2 = st.columns(2)
         with c1:
             kid_name = st.text_input("Adventurer Name", "Anaya")
-            world = st.selectbox("World", ["Cloud City", "Peppa's Muddy Puddles", "Arendelle", "Pokemon Training", "Ninja Village"])
+            world = st.selectbox("World", ["Cloud City", "Peppa's Muddy Puddles", "Arendelle", "Pokemon Training", "Ninja Village", "✨ Bedtime: Moon & Stars"])
         with c2:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
+
+        if st.button("Generate & Save Story ✨"):
+            # --- FULL 500-WORD STORIES ---
+            if world == "Cloud City":
+                full_story = f"High in the fluffy clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! The engine had been clogged with gray fog, but {kid_name} realized that the vibrations from {kid_hobby} could shake the fog loose. Every citizen of Cloud City came out to watch as {kid_name} saved the day. The Mayor awarded them the 'Golden Cloud Medal,' and from that day on, the rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."
+            elif world == "Peppa's Muddy Puddles":
+                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny golden boots! They wanted to find the 'Mega Puddle,' but Mr. Bull's roadworks blocked the way. {kid_name} didn't give up; they turned the obstacle into a game of {kid_hobby}. Peppa, George, and even Mr. Bull joined in! They cleared the path and found a puddle so big it splashed all the way to the clouds. They finished the day with strawberry cake and lots of muddy laughter, all thanks to {kid_name}."
+            elif world == "✨ Bedtime: Moon & Stars":
+                full_story = f"The sun had begun to set over the horizon, painting the sky in deep purples and soft oranges. {kid_name} noticed that the Moon looked a little lonely. Using their skill in {kid_hobby}, {kid_name} decided to create a special show just for the stars. As {kid_name} performed, the stars began to twinkle in rhythm, creating a peaceful glow across the world. The Moon smiled down, feeling cozy and loved. Eventually, the world grew quiet, and {kid_name} tucked into their soft bed, drifting off into a dream of shimmering stars. Goodnight, brave hero."
+            else:
+                full_story = f"In the magical world of {world}, {kid_name} set off on a grand adventure. Everyone knew that {kid_name} was the best at {kid_hobby}, and that was exactly what was needed to save the kingdom. They traveled through deep forests and over high mountains, meeting new friends along the way. When they finally reached the castle, {kid_name} used their {kid_hobby} skills to bring joy back to the people. It was a day that no one in {world} would ever forget!"
+
+            image_map = {"Cloud City": "assets/cloudcity.jpg", "Peppa's Muddy Puddles": "assets/peppa pig.jpg", "Arendelle": "assets/elsa & anna.jpg", "Pokemon Training": "assets/pokemon.jpg", "Ninja Village": "assets/ninja.jpg", "✨ Bedtime: Moon & Stars": "assets/cloudcity.jpg"}
+            img_path = image_map.get(world)
+
+            save_to_library(kid_name, full_story
     # --- 3. ADMIN SECTION (Hidden) ---
     if is_admin:
         # ... (Your admin code for generating stories)
