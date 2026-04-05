@@ -84,22 +84,28 @@ with tab1:
 
     if st.button("Generate Story ✨"):
         # --- FIXED STORY LOGIC FOR ALL WORLDS ---
+        if st.button("Generate Story ✨"):
+        # --- LONG STORY ENGINE ---
+        intro = f"Once upon a time, in the magical realm of {world}, lived a brave adventurer named {kid_name}. "
+        
         if world == "Cloud City":
-            story = f"In the fluffy {world}, {kid_name} used {kid_hobby} to light up the sky and save the floating kingdom!"
-        elif world == "Candy Forest":
-            story = f"In the sweet {world}, {kid_name} found a chocolate path. By {kid_hobby}, they guided the gummy bears home!"
-        elif world == "Ninja Village":
-            story = f"In the hidden {world}, {kid_name} mastered the art of {kid_hobby} to protect the golden scroll!"
-        elif world == "Pokemon Training":
-            story = f"{kid_name} became a Pokemon master in {world} by using {kid_hobby} to win the final badge!"
+            middle = f"{kid_name} noticed the clouds turning grey! Using the power of {kid_hobby}, our hero bounced from marshmallow cloud to silver lining, gathering sunbeams in a golden jar. "
+            climax = f"Suddenly, a giant wind-dragon appeared! But {kid_name} showed the dragon how to enjoy {kid_hobby}, and they became best friends, lighting up the sky forever."
         elif world == "Peppa's Muddy Puddles":
-            story = f"Peppa Pig and {kid_name} jumped in the biggest muddy puddles because they both love {kid_hobby}!"
+            middle = f"Peppa and {kid_name} found the biggest puddle in the world! They decided that {kid_hobby} was the only way to stay balanced while jumping. George joined in with his dinosaur, making a giant splash! "
+            climax = f"Daddy Pig lost his glasses in the mud, but {kid_name} used their amazing {kid_hobby} skills to find them. Everyone had a big laugh and a snack of strawberry cake."
+        elif world == "Ninja Village":
+            middle = f"The Golden Scroll was missing! {kid_name} had to sneak past the sleeping panda guards using the secret technique of {kid_hobby}. It was the quietest move ever performed in the village. "
+            climax = f"At the top of the mountain, the scroll was found. It turned out the Master was just using it to practice {kid_hobby}! {kid_name} was awarded a black belt for their bravery."
         elif world == "Arendelle (Elsa & Anna)":
-            story = f"In frozen Arendelle, {kid_name} helped Elsa and Anna use {kid_hobby} to bring back summer!"
-        elif world == "Rapunzel's Tower":
-            story = f"{kid_name} climbed the tall tower and used {kid_hobby} to help Rapunzel see the floating lanterns!"
+            middle = f"A winter storm was freezing the castle doors shut. Elsa asked {kid_name} to help. By combining ice magic with {kid_hobby}, they created a beautiful glowing path through the snow. "
+            climax = f"Olaf accidentally turned into a giant snowball, but {kid_name} saved him with a warm hug and more {kid_hobby}. Summer returned to Arendelle, warmer than ever before!"
+        # Add similar long sections for Pokemon, Rapunzel, etc.
         else:
-            story = f"In the deep {world}, {kid_name} threw a dance party. The fish joined in because they loved {kid_hobby}!"
+            middle = f"It was a day full of surprises where {kid_hobby} was the key to solving every mystery. "
+            climax = f"Finally, {kid_name} realized that as long as they had their favorite hobby, every day was an adventure."
+
+        story = intro + middle + climax + f" And so, {kid_name} returned home, waiting for the next trip to {world}."
         
         # --- FIXED IMAGE MAPPING ---
         image_map = {
