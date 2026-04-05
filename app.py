@@ -95,9 +95,13 @@ with tab1:
         image_map = {
             "Cloud City": "assets/cloudcity.jpg",
             "Candy Forest": "assets/candy.jpg",
-            "Undersea Party": "assets/sea.jpg"
+            "Undersea Party": "assets/sea.jpg",
+            "Ninja Village": "assets/ninja.jpg",
+            "Pokemon Training": "assets/pokemon.jpg",
+            "Peppa's Muddy Puddles": "assets/peppa.jpg",
+            "Arendelle (Elsa & Anna)": "assets/frozen.jpg",
+            "Rapunzel's Tower": "assets/rapunzel.jpg"
         }
-        img = image_map.get(world)
         
         st.divider()
         col_a, col_b = st.columns([1.5, 1])
