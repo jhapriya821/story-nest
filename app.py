@@ -4,7 +4,6 @@ import os
 import urllib.parse
 
 # --- 1. DATABASE ENGINE ---
-# Using a consistent name ensures the app reads what it writes
 DB_FILE = 'stories.db'
 
 def init_db():
@@ -25,7 +24,7 @@ def save_to_library(name, story, img_path):
 
 init_db()
 
-# --- 2. SIDEBAR & WHATSAPP FIX ---
+# --- 2. SIDEBAR & WHATSAPP ---
 with st.sidebar:
     st.title("🔐 Admin Portal")
     pwd = st.text_input("Enter Password", type="password")
@@ -33,21 +32,10 @@ with st.sidebar:
     
     st.divider()
     st.markdown("### 📱 Request a Story")
-    
-    # REPLACE WITH YOUR NUMBER: Digits only, no spaces or + (e.g., "491761234567")
-    my_phone = "YOUR_PHONE_NUMBER" 
+    my_phone = "YOUR_PHONE_NUMBER" # Digits only
     msg = "Hi! I'd like a long story for Story Nest!"
-    # Using 'wa.me' directly fixes the 404 error
     wa_link = f"https://wa.me/{my_phone}?text={urllib.parse.quote(msg)}"
-    
-    st.markdown(f'''
-        <a href="{wa_link}" target="_blank">
-            <button style="background-color: #25D366; color: white; border: none; padding: 12px; 
-            border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px;">
-                💬 WhatsApp the Author
-            </button>
-        </a>
-    ''', unsafe_allow_html=True)
+    st.markdown(f'''<a href="{wa_link}" target="_blank"><button style="background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold;">💬 WhatsApp the Author</button></a>''', unsafe_allow_html=True)
 
 # --- 3. UI STYLING ---
 st.set_page_config(page_title="Story Nest", layout="wide")
@@ -60,37 +48,21 @@ with tab1:
     if is_admin:
         c1, c2 = st.columns(2)
         with c1:
-            kid_name = st.text_input("Adventurer Name", "Ahaan")
+            kid_name = st.text_input("Adventurer Name", "Anaya")
             world = st.selectbox("World", ["Cloud City", "Peppa's Muddy Puddles", "Arendelle", "Pokemon Training", "Ninja Village"])
         with c2:
-            kid_hobby = st.text_input("Favorite Hobby", "playing")
+            kid_hobby = st.text_input("Favorite Hobby", "reading")
 
         if st.button("Generate Story ✨"):
-            # --- FULL 500-WORD STORIES (No Placeholders) ---
-            if world == "Ninja Village":
-                full_story = f"High above the misty peaks of the Jade Mountains lies the legendary {world}. Our hero, {kid_name}, was the swiftest student at the Academy. While others focused on combat, {kid_name} used the power of {kid_hobby} to solve mysteries. When the Golden Katana vanished, {kid_name} tracked it to the Shadow Monkeys. Instead of fighting, {kid_name} invited them to join in {kid_hobby}. The monkeys were so delighted they returned the sword and became the village's guardians. Master Satoshi declared that {kid_name} proved joy is the ultimate ninja skill."
-            
-            elif world == "Pokemon Training":
-                full_story = f"The sun rose over Pallet Town as {kid_name} set off for the Great Tournament. With Pikachu by their side, {kid_name} used a secret strategy: {kid_hobby}. In the Whispering Woods, they met a grumpy Snorlax. Most trainers used PokeFlutes, but {kid_name} started {kid_hobby}. The Snorlax woke up laughing and cleared the path! At the finals, Mewtwo appeared. Instead of a battle, {kid_name} showed Mewtwo the fun of {kid_hobby}. Mewtwo was touched by this bond and crowned {kid_name} the Grand Champion."
-
+            # --- FULL 500-WORD STORIES ---
+            if world == "Cloud City":
+                full_story = f"High in the fluffy clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! The engine had been clogged with gray fog, but {kid_name} realized that the vibrations from {kid_hobby} could shake the fog loose. As they began, the clouds turned from gloomy gray to a bright, neon pink. Every citizen of Cloud City came out to watch as {kid_name} saved the day. The Mayor awarded them the 'Golden Cloud Medal,' and from that day on, the rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."
             elif world == "Peppa's Muddy Puddles":
-                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny golden boots! They wanted to find the 'Mega Puddle,' but Mr. Bull's roadworks blocked the way. {kid_name} didn't give up; they turned the obstacle into a game of {kid_hobby}. Peppa, George, and even Mr. Bull joined in! They cleared the path and found a puddle so big it splashed all the way to the clouds. They finished the day with strawberry cake and lots of muddy laughter."
+                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny golden boots! They wanted to find the 'Mega Puddle,' but Mr. Bull's roadworks blocked the way. {kid_name} didn't give up; they turned the obstacle into a game of {kid_hobby}. Peppa, George, and even Mr. Bull joined in! They cleared the path and found a puddle so big it splashed all the way to the clouds. They finished the day with strawberry cake and lots of muddy laughter, all thanks to {kid_name}."
+            else:
+                full_story = f"In the magical world of {world}, {kid_name} set off on a grand adventure. Everyone knew that {kid_name} was the best at {kid_hobby}, and that was exactly what was needed to save the kingdom. They traveled through deep forests and over high mountains, meeting new friends along the way. When they finally reached the castle, {kid_name} used their {kid_hobby} skills to bring joy back to the people. It was a day that no one in {world} would ever forget!"
 
-            elif world == "Arendelle":
-                full_story = f"Arendelle was ready for the Winter Festival, but the Northern Lights had gone dark. Queen Elsa asked {kid_name} for help. {kid_name} knew that {kid_hobby} creates the brightest heart-light. They gathered the town and led a giant session of {kid_hobby}. The pure happiness turned into sparks that shot into the sky, reigniting the Northern Lights in brilliant colors. Elsa named {kid_name} the Protector of Joy, ensuring Arendelle stays bright forever."
-
-            else: # Cloud City
-                full_story = f"In the floating {world}, {kid_name} lived among the stars. One day, the city began to sink because the citizens had stopped dreaming. The Mayor was worried, but {kid_name} knew the answer: {kid_hobby}. As {kid_name} began {kid_hobby} on the main plaza, the clouds turned from gray to bright pink. The city rose back up, fueled by the magic of fun. {kid_name} saved the day and became the official 'Captain of Clouds'."
-
-            # --- IMAGE MAPPING ---
-            # Ensure these names match your 'assets' folder exactly
-            image_map = {
-                "Cloud City": "assets/cloudcity.jpg",
-                "Peppa's Muddy Puddles": "assets/peppa pig.jpg", 
-                "Arendelle": "assets/elsa & anna.jpg",
-                "Pokemon Training": "assets/pokemon.jpg",
-                "Ninja Village": "assets/ninja.jpg"
-            }
+            image_map = {"Cloud City": "assets/cloudcity.jpg", "Peppa's Muddy Puddles": "assets/peppa pig.jpg", "Arendelle": "assets/elsa & anna.jpg", "Pokemon Training": "assets/pokemon.jpg", "Ninja Village": "assets/ninja.jpg"}
             img_path = image_map.get(world)
 
             st.divider()
@@ -100,28 +72,31 @@ with tab1:
             with col_img:
                 if img_path and os.path.exists(img_path):
                     st.image(img_path)
-                else:
-                    st.warning(f"⚠️ Image missing: {img_path}")
             
-            # This saves the story to the database
             save_to_library(kid_name, full_story, img_path)
             st.success("Tale saved to Library!")
-            st.balloons()
 
 with tab2:
     st.subheader("📚 Saved Adventures")
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
-    # Fetching saved stories to display in library
-    c.execute("SELECT name, story, image_path FROM library ORDER BY id DESC")
+    c.execute("SELECT id, name, story, image_path FROM library ORDER BY id DESC")
     rows = c.fetchall()
     conn.close()
 
-    if not rows:
-        st.info("The library is currently empty. Create a story to see it here!")
-    else:
-        for name, story, path in rows:
-            with st.expander(f"📖 {name}'s Adventure"):
+    for sid, name, story, path in rows:
+        with st.expander(f"📖 {name}'s Adventure"):
+            l, r = st.columns([2, 1])
+            with l:
                 st.write(story)
+                if is_admin:
+                    if st.button(f"🗑️ Delete {name}", key=f"del_{sid}"):
+                        conn = sqlite3.connect(DB_FILE)
+                        c = conn.cursor()
+                        c.execute("DELETE FROM library WHERE id = ?", (sid,))
+                        conn.commit()
+                        conn.close()
+                        st.rerun()
+            with r:
                 if path and os.path.exists(path):
                     st.image(path)
