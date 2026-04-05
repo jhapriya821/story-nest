@@ -3,7 +3,7 @@ import sqlite3
 import os
 import urllib.parse
 
-# --- 1. DATABASE ENGINE ---
+# --- 1. DATABASE SETUP ---
 DB_FILE = 'stories.db'
 
 def init_db():
@@ -24,42 +24,38 @@ def save_to_library(name, story, img_path):
 
 init_db()
 
-# --- 2. SIDEBAR & WHATSAPP ---
+# --- 2. SIDEBAR & AUTH ---
 with st.sidebar:
     st.title("🔐 Admin Portal")
     pwd = st.text_input("Enter Password", type="password")
     is_admin = (pwd == "admin123") 
     
     st.divider()
-    st.markdown("### 📱 Request a Story")
-    my_phone = "YOUR_PHONE_NUMBER" # Digits only
-    msg = "Hi! I'd like a long story for Story Nest!"
-    wa_link = f"https://wa.me/{my_phone}?text={urllib.parse.quote(msg)}"
-    st.markdown(f'''<a href="{wa_link}" target="_blank"><button style="background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold;">💬 WhatsApp the Author</button></a>''', unsafe_allow_html=True)
+    st.markdown("### 📱 Contact Author")
+    wa_link = "https://wa.me/YOUR_PHONE_NUMBER" # Replace with your digits
+    st.markdown(f'''<a href="{wa_link}" target="_blank"><button style="background-color: #25D366; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer;">WhatsApp Me</button></a>''', unsafe_allow_html=True)
 
-# --- 3. UI STYLING ---
+# --- 3. MAIN UI ---
 st.set_page_config(page_title="Story Nest", layout="wide")
-st.markdown("""<style>.story-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 1.25rem; line-height: 2.2; color: #334155; font-family: 'Georgia', serif; }</style>""", unsafe_allow_html=True)
-
 st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h1>', unsafe_allow_html=True)
+
 tab1, tab2 = st.tabs(["✨ Create Magic", "📚 My Library"])
 
 with tab1:
-    # 1. WELCOME SECTION (Visible to everyone)
+    # PUBLIC SECTION (Visible to everyone)
     st.markdown("## 🌤️ Welcome to the Story Nest!")
     st.write("Step into a world of magic where **your child is the hero**.")
     
-    # 2. THE REQUEST BOX (Visible to everyone)
     with st.expander("✨ Request a Story for your Child"):
-        guest_name = st.text_input("Child's Name", key="guest_n")
-        guest_interest = st.text_input("What do they love? (e.g. Dinosaurs)", key="guest_i")
+        g_name = st.text_input("Child's Name", key="g_n")
+        g_love = st.text_input("What do they love?", key="g_l")
         if st.button("Send Request"):
-            st.success(f"Got it! Check the Library in 24 hours to see {guest_name}'s adventure!")
-    
-    st.info("👈 **Readers:** Click on the **📚 My Library** tab at the top to find your saved stories!")
+            st.success(f"Got it! I'll create a story for {g_name} soon!")
+
+    st.info("👈 **Readers:** Click the **📚 My Library** tab to see saved stories!")
     st.divider()
 
-    # 3. ADMIN SECTION (Hidden until password entered)
+    # ADMIN SECTION (Only for you)
     if is_admin:
         st.subheader("🛠️ Admin: Create a New Adventure")
         c1, c2 = st.columns(2)
@@ -70,56 +66,25 @@ with tab1:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
 
         if st.button("Generate & Save Story ✨"):
-            # --- FULL 500-WORD STORIES ---
             if world == "Cloud City":
-                full_story = f"High in the fluffy clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! The engine had been clogged with gray fog, but {kid_name} realized that the vibrations from {kid_hobby} could shake the fog loose. Every citizen of Cloud City came out to watch as {kid_name} saved the day. The Mayor awarded them the 'Golden Cloud Medal,' and from that day on, the rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."
+                full_story = f"High in the clouds of {world}, {kid_name} used their {kid_hobby} skills to fix the rainbow engine and save the sky!"
             elif world == "Peppa's Muddy Puddles":
-                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny golden boots! They wanted to find the 'Mega Puddle,' but Mr. Bull's roadworks blocked the way. {kid_name} didn't give up; they turned the obstacle into a game of {kid_hobby}. Peppa, George, and even Mr. Bull joined in! They cleared the path and found a puddle so big it splashed all the way to the clouds. They finished the day with strawberry cake and lots of muddy laughter, all thanks to {kid_name}."
+                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny boots to play {kid_hobby} in the mud!"
             elif world == "✨ Bedtime: Moon & Stars":
-                full_story = f"The sun had begun to set over the horizon, painting the sky in deep purples and soft oranges. {kid_name} noticed that the Moon looked a little lonely. Using their skill in {kid_hobby}, {kid_name} decided to create a special show just for the stars. As {kid_name} performed, the stars began to twinkle in rhythm, creating a peaceful glow across the world. The Moon smiled down, feeling cozy and loved. Eventually, the world grew quiet, and {kid_name} tucked into their soft bed, drifting off into a dream of shimmering stars. Goodnight, brave hero."
+                full_story = f"As the sun set, {kid_name} used {kid_hobby} to help the stars twinkle. Now, it's time for sleep. Goodnight, {kid_name}."
             else:
-                full_story = f"In the magical world of {world}, {kid_name} set off on a grand adventure. Everyone knew that {kid_name} was the best at {kid_hobby}, and that was exactly what was needed to save the kingdom. They traveled through deep forests and over high mountains, meeting new friends along the way. When they finally reached the castle, {kid_name} used their {kid_hobby} skills to bring joy back to the people. It was a day that no one in {world} would ever forget!"
+                full_story = f"In {world}, {kid_name} went on a grand {kid_hobby} adventure that no one will ever forget!"
 
-            image_map = {"Cloud City": "assets/cloudcity.jpg", "Peppa's Muddy Puddles": "assets/peppa pig.jpg", "Arendelle": "assets/elsa & anna.jpg", "Pokemon Training": "assets/pokemon.jpg", "Ninja Village": "assets/ninja.jpg", "✨ Bedtime: Moon & Stars": "assets/cloudcity.jpg"}
-            img_path = image_map.get(world)
+            image_map = {
+                "Cloud City": "assets/cloudcity.jpg", 
+                "Peppa's Muddy Puddles": "assets/peppa pig.jpg",
+                "✨ Bedtime: Moon & Stars": "assets/cloudcity.jpg"
+            }
+            img_path = image_map.get(world, "assets/cloudcity.jpg")
 
-            save_to_library(kid_name, full_story
-    # --- 3. ADMIN SECTION (Hidden) ---
-    if is_admin:
-        # ... (Your admin code for generating stories)
-
-    # --- 2. THIS IS FOR THE ADMIN (Hidden until you log in) ---
-    if is_admin:
-        st.subheader("🛠️ Admin: Create a New Adventure")
-        c1, c2 = st.columns(2)
-        with c1:
-            kid_name = st.text_input("Adventurer Name", "Anaya")
-            world = st.selectbox("World", ["Cloud City", "Peppa's Muddy Puddles", "Arendelle", "Pokemon Training", "Ninja Village"])
-        with c2:
-            kid_hobby = st.text_input("Favorite Hobby", "reading")
-
-        if st.button("Generate Story ✨"):
-            # --- FULL 500-WORD STORIES ---
-            if world == "Cloud City":
-                full_story = f"High in the fluffy clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! The engine had been clogged with gray fog, but {kid_name} realized that the vibrations from {kid_hobby} could shake the fog loose. As they began, the clouds turned from gloomy gray to a bright, neon pink. Every citizen of Cloud City came out to watch as {kid_name} saved the day. The Mayor awarded them the 'Golden Cloud Medal,' and from that day on, the rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."
-            elif world == "Peppa's Muddy Puddles":
-                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived in shiny golden boots! They wanted to find the 'Mega Puddle,' but Mr. Bull's roadworks blocked the way. {kid_name} didn't give up; they turned the obstacle into a game of {kid_hobby}. Peppa, George, and even Mr. Bull joined in! They cleared the path and found a puddle so big it splashed all the way to the clouds. They finished the day with strawberry cake and lots of muddy laughter, all thanks to {kid_name}."
-            else:
-                full_story = f"In the magical world of {world}, {kid_name} set off on a grand adventure. Everyone knew that {kid_name} was the best at {kid_hobby}, and that was exactly what was needed to save the kingdom. They traveled through deep forests and over high mountains, meeting new friends along the way. When they finally reached the castle, {kid_name} used their {kid_hobby} skills to bring joy back to the people. It was a day that no one in {world} would ever forget!"
-
-            image_map = {"Cloud City": "assets/cloudcity.jpg", "Peppa's Muddy Puddles": "assets/peppa pig.jpg", "Arendelle": "assets/elsa & anna.jpg", "Pokemon Training": "assets/pokemon.jpg", "Ninja Village": "assets/ninja.jpg"}
-            img_path = image_map.get(world)
-
-            st.divider()
-            col_story, col_img = st.columns([1.5, 1])
-            with col_story:
-                st.markdown(f'<div class="story-card">{full_story}</div>', unsafe_allow_html=True)
-            with col_img:
-                if img_path and os.path.exists(img_path):
-                    st.image(img_path)
-            
             save_to_library(kid_name, full_story, img_path)
-            st.success("Tale saved to Library!")
+            st.success("Saved!")
+            st.rerun()
 
 with tab2:
     st.subheader("📚 Saved Adventures")
@@ -131,8 +96,8 @@ with tab2:
 
     for sid, name, story, path in rows:
         with st.expander(f"📖 {name}'s Adventure"):
-            l, r = st.columns([2, 1])
-            with l:
+            col_l, col_r = st.columns([2, 1])
+            with col_l:
                 st.write(story)
                 if is_admin:
                     if st.button(f"🗑️ Delete {name}", key=f"del_{sid}"):
@@ -142,6 +107,6 @@ with tab2:
                         conn.commit()
                         conn.close()
                         st.rerun()
-            with r:
+            with col_r:
                 if path and os.path.exists(path):
                     st.image(path)
