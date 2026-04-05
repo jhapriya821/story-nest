@@ -27,12 +27,37 @@ init_db()
 st.set_page_config(page_title="Story Nest", layout="wide")
 
 with st.sidebar:
+    st.markdown("## 🌤️ Story Nest Menu")
+    
+    # 📸 Instagram Button - Replace 'your_handle' with your new IG name!
+    st.markdown(f'''
+        <a href="https://instagram.com/your_handle" target="_blank">
+            <button style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); 
+            color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold;">
+                📸 Follow on Instagram
+            </button>
+        </a>
+    ''', unsafe_allow_html=True)
+    
+    st.divider()
+
+    # 🔑 Admin Portal
     st.title("🔐 Admin Portal")
     pwd = st.text_input("Enter Password", type="password")
     is_admin = (pwd == "admin123") 
+    
     st.divider()
+    
+    # 📱 WhatsApp Contact
     st.markdown("### 📱 Contact Author")
-    st.markdown(f'''<a href="https://wa.me/YOUR_NUMBER" target="_blank"><button style="background-color: #25D366; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer;">WhatsApp Me</button></a>''', unsafe_allow_html=True)
+    # Replace YOUR_NUMBER with your phone number (include country code, no +)
+    st.markdown(f'''
+        <a href="https://wa.me/YOUR_NUMBER?text=Hi! I'm interested in a custom story!" target="_blank">
+            <button style="background-color: #25D366; color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold;">
+                💬 Message on WhatsApp
+            </button>
+        </a>
+    ''', unsafe_allow_html=True)
 
 # --- 3. MAIN UI ---
 st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h1>', unsafe_allow_html=True)
@@ -48,46 +73,33 @@ with tab1:
 
     st.divider()
 
-    # --- ADMIN SECTION ---
     if is_admin:
         st.subheader("🛠️ Admin: Create a New Adventure")
         c1, c2 = st.columns(2)
         with c1:
             kid_name = st.text_input("Adventurer Name", "Anaya")
             world = st.selectbox("World", [
-                "Cloud City", 
-                "Peppa's Muddy Puddles", 
-                "Arendelle", 
-                "Pokemon Training", 
-                "Ninja Village", 
-                "Gabby's Dollhouse",
-                "Lightning McQueen's Race",
-                "✨ Bedtime: Moon & Stars"
+                "Cloud City", "Peppa's Muddy Puddles", "Arendelle", 
+                "Pokemon Training", "Ninja Village", "Gabby's Dollhouse",
+                "Lightning McQueen's Race", "✨ Bedtime: Moon & Stars"
             ])
         with c2:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
 
         if st.button("Generate & Save Story ✨"):
-            # 1. LONG STORIES [500-ish words logic]
             if world == "Lightning McQueen's Race":
                 full_story = f"Vroom! The engines were roaring at the Radiator Springs Speedway. {kid_name} was sitting right in the pit stop with Lightning McQueen! The Piston Cup race was about to start, but Lightning's tires were stuck. Using their amazing skill in {kid_hobby}, {kid_name} figured out a clever way to get the team moving again. McQueen zoomed onto the track, shouting 'Ka-chow!' thanks to {kid_name}. It was the fastest, most exciting race ever, and {kid_name} was the hero of the track!"
-            
             elif world == "Gabby's Dollhouse":
                 full_story = f"A-meow-zing! {kid_name} put on the magical cat ears and shrunk down to dollhouse size. Gabby and Pandy Paws were waiting in the Craft Room! They had a 'Cat-tastic' problem: the Glitter-Glow paint was missing. {kid_name} used {kid_hobby} to lead the way through the Music Room and the Kitchen, finding the paint just in time for the party. Everyone shared a big group hug, and Gabby gave {kid_name} a special star-sticker for being such a great friend!"
-            
             elif world == "Cloud City":
                 full_story = f"High in the fluffy, pink-tinted clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! Every citizen of Cloud City—from the balloon-birds to the star-whales—came out to watch as {kid_name} saved the day. The rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."
-            
             elif world == "Peppa's Muddy Puddles":
                 full_story = f"It was a wonderfully rainy day at Peppa's house, and {kid_name} arrived wearing the shiniest golden boots! They turned the obstacle into a grand game of {kid_hobby}. Peppa, George, Mummy Pig, and even Mr. Bull joined in the fun! They found a puddle so big it splashed all the way to the treetops, all thanks to the clever {kid_hobby} skills of {kid_name}."
-            
             elif world == "Ninja Village":
                 full_story = f"In the hidden Ninja Village, {kid_name} trained with the masters of shadow. Using their focus and their love for {kid_hobby}, they learned the 'Secret Art of Joy.' By the end of the day, {kid_name} was awarded the legendary Ninja headband for being a true hero of {world}."
-
             else:
                 full_story = f"In the magical world of {world}, {kid_name} set off on a grand adventure using their skills in {kid_hobby}. It was a day that no one would ever forget! By the time the moon rose, {kid_name} had become the hero of the kingdom."
 
-            # 2. IMAGE MAPPING
             image_map = {
                 "Cloud City": "assets/cloudcity.jpg", 
                 "Peppa's Muddy Puddles": "assets/peppa pig.jpg",
