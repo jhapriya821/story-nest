@@ -20,16 +20,9 @@ def save_to_library(name, story, img_path):
     conn.commit()
     conn.close()
 
-def delete_story(story_id):
-    conn = sqlite3.connect('stories.db')
-    c = conn.cursor()
-    c.execute("DELETE FROM library WHERE id = ?", (story_id,))
-    conn.commit()
-    conn.close()
-
 init_db()
 
-# --- 2. SIDEBAR ---
+# --- 2. SIDEBAR & WHATSAPP ---
 with st.sidebar:
     st.title("🔐 Admin Portal")
     pwd = st.text_input("Enter Password", type="password")
@@ -37,14 +30,14 @@ with st.sidebar:
     
     st.divider()
     st.markdown("### 📱 Request a Story")
-    my_phone = "YOUR_PHONE_NUMBER" # Update this!
+    my_phone = "YOUR_PHONE_NUMBER" # Update this with your digits!
     msg = "Hi! I'd like a long story for Story Nest!"
-    wa_link = f"https://wa.me/{my_phone}?text={urllib.parse.quote(msg)}"
+    wa_link = f"https://api.whatsapp.com/send?phone={my_phone}&text={urllib.parse.quote(msg)}"
     st.markdown(f'<a href="{wa_link}" target="_blank"><button style="background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold;">💬 WhatsApp the Author</button></a>', unsafe_allow_html=True)
 
 # --- 3. UI STYLING ---
 st.set_page_config(page_title="Story Nest", layout="wide")
-st.markdown("""<style>.story-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 1.2rem; line-height: 2.0; color: #334155; }</style>""", unsafe_allow_html=True)
+st.markdown("""<style>.story-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 1.2rem; line-height: 2.0; color: #334155; font-family: 'Georgia', serif; }</style>""", unsafe_allow_html=True)
 
 st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h1>', unsafe_allow_html=True)
 tab1, tab2 = st.tabs(["✨ Create Magic", "📚 My Library"])
@@ -59,27 +52,27 @@ with tab1:
             kid_hobby = st.text_input("Favorite Hobby", "playing")
 
         if st.button("Generate Story ✨"):
-            # --- SUPER LONG STORY ENGINE (500+ Words) ---
+            # --- MEGA STORY ENGINE (200-500 WORDS PER WORLD) ---
             if world == "Ninja Village":
-                full_story = f"""
-                Deep within the hidden valleys of the Ancient Orient, tucked behind the Great Whispering Falls, lay the legendary {world}. It was a place where the wind carried the scent of cherry blossoms and the sound of wooden training dummies clashing. Among the many students at the Shadow Academy, one stood out above the rest: the brave and energetic {kid_name}.
+                full_story = f"""High above the misty peaks of the Jade Mountains lies the legendary {world}, where the very air thrums with ancient energy. Our story begins with the swiftest student at the Shadow Academy, a young hero named {kid_name}. While other ninjas practiced their stealth and swordplay, {kid_name} possessed a unique gift that Master Satoshi called 'The Spark.' This spark came from {kid_name}'s absolute love for **{kid_hobby}**. One crisp morning, the Great Bell chimed—a sound that only rang in times of great mystery. The Golden Katana, the village's source of light, had vanished! Master Satoshi looked at {kid_name} and said, 'The Shadow Monkeys have taken it to the Echoing Caves. They are too fast for our guards, but they cannot resist a challenge of the heart.' {kid_name} set off immediately, leaping from cherry blossom tree to bamboo forest. Upon reaching the Echoing Caves, the Shadow Monkeys appeared, chattering and ready to cause mischief. Instead of drawing a weapon, {kid_name} simply sat down and began {kid_hobby}. The monkeys stopped. They had never seen anything so fascinating! Slowly, one by one, the monkeys joined in. The caves, which were once dark and scary, filled with the sounds of laughter and joy. The Shadow Monkeys were so happy to have a friend to spend time {kid_hobby} with that they willingly handed over the Golden Katana. {kid_name} returned to {world} not just with the treasure, but with an army of monkey friends! Master Satoshi beamed with pride, declaring that {kid_name} had taught the whole village that the true power of a ninja isn't in hiding, but in the joy of shared adventure."""
+            
+            elif world == "Peppa's Muddy Puddles":
+                full_story = f"""It was a beautifully rainy day in the rolling green hills where Peppa Pig lived. The sky was filled with fluffy gray clouds, which meant only one thing: Muddy Puddles! {kid_name} had just arrived for a visit, wearing the shiniest golden boots ever seen. Peppa and George were already outside, breathless with excitement. 'Hurry up, {kid_name}!' Peppa giggled. 'The biggest puddle in the world is just behind the hill!' But as they reached the giant puddle, they found a problem. Mr. Bull was doing roadworks, and a large pile of bricks was blocking the way to the puddle. 'Oh dear,' said Mummy Pig. 'I don't think we can jump today.' But {kid_name} had a better idea. They knew that **{kid_hobby}** was the secret to solving any problem. Using their skills in {kid_hobby}, {kid_name} organized a brilliant game that involved everyone. They turned the brick-moving into a grand parade, and before they knew it, the path was clear! Daddy Pig was so impressed he tried to do a giant jump, but he landed with a huge 'SPLASH' and lost his glasses in the mud. {kid_name} used their {kid_hobby} eyes to spot them instantly. The afternoon was spent jumping, laughing, and learning that {kid_hobby} makes every rainy day feel like a sunny one. They all finished with a delicious strawberry cake, celebrating the best puddle-jumping day in history."""
 
-                {kid_name} wasn't just a normal student; they had a secret technique that no one else possessed. While others focused on stealth and strength, {kid_name} focused on the power of **{kid_hobby}**. One sunny afternoon, the Village Elder, Master Satoshi, called {kid_name} to the Great Dojo. 'The Golden Scroll has been stolen by the mischievous Shadow Monkeys,' the Master said gravely. 'They have retreated to the top of the Impossible Peaks. We need someone who can outsmart them.'
+            elif world == "Pokemon Training":
+                full_story = f"""The sun was rising over Pallet Town as {kid_name} stepped out into the tall grass, a brand new PokeBall strapped to their belt. This wasn't just any day—it was the day of the Great Pokemon Tournament. Pikachu was at their side, sparks of electricity dancing on its cheeks. 'Pika-pi!' it chirped, feeling the excitement in the air. The challenge was massive: they had to navigate the Whispering Woods and find the hidden Crystal Badge. Along the way, they met many rival trainers, but {kid_name} had a secret weapon that wasn't a move like Thunderbolt or Flamethrower. Their secret was the art of **{kid_hobby}**. When they encountered a grumpy Snorlax blocking the bridge, other trainers tried to wake it with loud music. But {kid_name} decided to start {kid_hobby}. The gentle rhythm and fun of {kid_hobby} were so contagious that even the Snorlax woke up with a smile and danced out of the way! As they reached the final arena, the legendary Mewtwo appeared. It wanted to see the strength of a true trainer's heart. {kid_name} didn't fight; they shared the joy of {kid_hobby} with the Pokemon. Mewtwo was amazed. It realized that training wasn't just about battling, but about the bond created through {kid_hobby}. {kid_name} was crowned the Grand Champion, proving to the whole world that the best trainers are the ones who know how to have the most fun."""
 
-                Without a second thought, {kid_name} tightened their blue headband and set off. The journey was long and full of obstacles. First, there was the River of Senses, where the water flowed in reverse. Most ninjas would try to swim, but {kid_name} decided to start {kid_hobby}. By turning the challenge into a game, they hopped across the floating stones with a grace that left the river-spirits in awe. 
+            elif world == "Arendelle":
+                full_story = f"""The kingdom of Arendelle was shimmering under a blanket of fresh, magical snow. Queen Elsa had created a magnificent winter festival, but something was missing. The Northern Lights, which usually guided the reindeer home, had dimmed. Anna, Olaf, and Kristoff were worried, but Elsa knew exactly who to call: the legendary adventurer {kid_name}. When {kid_name} arrived, the gates of the castle flew open. 'We need a special kind of magic,' Elsa explained. 'A magic that comes from the heart.' {kid_name} knew exactly what to do. They gathered everyone in the town square and began **{kid_hobby}**. As {kid_name} showed them the wonder of {kid_hobby}, the snow beneath their feet began to glow with a warm, golden light. Olaf started dancing, his carrot nose twitching with delight. The energy from their {kid_hobby} rose higher and higher into the sky, touching the clouds and reigniting the Northern Lights in a burst of pink, green, and blue. The reindeer followed the lights back home just in time for the grand feast. Anna hugged {kid_name}, thanking them for saving the festival. From that night on, a new tradition was born in Arendelle: every winter, the citizens would gather to celebrate {kid_hobby}, reminding everyone that even the coldest winter can be warmed by a playful spirit."""
 
-                When {kid_name} finally reached the Peaks, they found the Shadow Monkeys. The monkeys were grumpy and wouldn't let anyone near the scroll. Instead of fighting, {kid_name} invited them to join in. For hours, the peaks echoed with laughter as they spent their time {kid_hobby} together. The monkeys had never had so much fun! They realized that being friends was much better than stealing scrolls.
+            else: # Cloud City
+                full_story = f"""High above the world, where the air is as sweet as cotton candy, sits the floating majestic {world}. {kid_name} lived in a house made of solid sunset-beams. The city was famous for its flying whales and singing birds, but one day, the clouds began to turn a heavy, dull gray. The city started to sink! The Great Balloon that held the city up was losing its lift. {kid_name} raced to the control tower where the Mayor was panicking. 'We need more joy-energy!' he cried. {kid_name} stepped onto the highest balcony. They realized that the citizens had forgotten how to have fun. So, {kid_name} began **{kid_hobby}** with all their might. Slowly, the neighbors looked out their windows and joined in. The more they focused on {kid_hobby}, the lighter the clouds became. The gray turned into bright white, then a soft pink. The city rose back up, higher than ever before. {kid_name} had saved {world} by reminding everyone that **{kid_hobby}** is the fuel that keeps dreams afloat. The story of their bravery was written in the stars for all to see."""
 
-                In gratitude, the monkeys returned the Golden Scroll. {kid_name} returned to {world} as a hero. Master Satoshi smiled and declared that from that day forward, the most important lesson at the Academy would be the joy of {kid_hobby}. And so, {kid_name} lived happily, always ready for the next adventure, proving that a playful heart is the strongest weapon of all.
-                """
-            # (Add similar long blocks for other worlds below)
-            else:
-                full_story = f"In the land of {world}, {kid_name} began a massive adventure involving {kid_hobby}. It was a long journey across many mountains and rivers. They met many friends and solved many puzzles. Everyone in {world} was amazed at how well {kid_name} could handle challenges. The story continued for many chapters, filled with laughter and excitement..."
-
+            # --- IMAGE MAPPING ---
             image_map = {
                 "Cloud City": "assets/cloudcity.jpg",
                 "Peppa's Muddy Puddles": "assets/peppa pig.jpg", 
-                "Arendelle": "assets/elsa.jpg",
+                "Arendelle": "assets/elsa & anna.jpg",
                 "Pokemon Training": "assets/pokemon.jpg",
                 "Ninja Village": "assets/ninja.jpg"
             }
@@ -94,28 +87,7 @@ with tab1:
                 if img_path and os.path.exists(img_path):
                     st.image(img_path)
                 else:
-                    st.warning(f"Check your assets folder for: {img_path}")
+                    st.warning(f"Image not found at: {img_path}")
             
             save_to_library(kid_name, full_story, img_path)
             st.balloons()
-    else:
-        st.info("Please enter the Admin Password to generate stories.")
-
-with tab2:
-    conn = sqlite3.connect('stories.db')
-    c = conn.cursor()
-    c.execute("SELECT id, name, story, image_path FROM library ORDER BY id DESC")
-    rows = c.fetchall()
-    conn.close()
-    for sid, sname, stext, spath in rows:
-        with st.expander(f"📖 {sname}'s Adventure"):
-            l, r = st.columns([2, 1])
-            with l:
-                st.write(stext)
-                if is_admin:
-                    if st.button(f"🗑️ Delete #{sid}", key=f"del_{sid}"):
-                        delete_story(sid)
-                        st.rerun()
-            with r:
-                if spath and os.path.exists(spath):
-                    st.image(spath)
