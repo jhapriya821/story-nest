@@ -55,7 +55,7 @@ with tab1:
     st.info("👈 **Readers:** Click the **📚 My Library** tab to see saved stories!")
     st.divider()
 
-    # ADMIN SECTION (Only for you)
+  # ADMIN SECTION (Only for you)
     if is_admin:
         st.subheader("🛠️ Admin: Create a New Adventure")
         c1, c2 = st.columns(2)
@@ -66,6 +66,7 @@ with tab1:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
 
         if st.button("Generate & Save Story ✨"):
+            # 1. Create the text
             if world == "Cloud City":
                 full_story = f"High in the clouds of {world}, {kid_name} used their {kid_hobby} skills to fix the rainbow engine and save the sky!"
             elif world == "Peppa's Muddy Puddles":
@@ -75,15 +76,20 @@ with tab1:
             else:
                 full_story = f"In {world}, {kid_name} went on a grand {kid_hobby} adventure that no one will ever forget!"
 
+            # 2. Pick the image (Matches your assets folder)
             image_map = {
                 "Cloud City": "assets/cloudcity.jpg", 
                 "Peppa's Muddy Puddles": "assets/peppa pig.jpg",
+                "Arendelle": "assets/elsa & anna.jpg",
+                "Pokemon Training": "assets/pokemon.jpg",
+                "Ninja Village": "assets/ninja.jpg",
                 "✨ Bedtime: Moon & Stars": "assets/cloudcity.jpg"
             }
             img_path = image_map.get(world, "assets/cloudcity.jpg")
 
+            # 3. SAVE AND REFRESH
             save_to_library(kid_name, full_story, img_path)
-            st.success("Saved!")
+            st.success(f"Success! {kid_name}'s story is now in the Library.")
             st.rerun()
 
 with tab2:
