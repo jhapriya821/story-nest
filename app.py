@@ -97,12 +97,14 @@ with tab1:
         
         # --- IMAGE MAPPING ---
         # Note: Ensure these files are in your 'assets' folder!
+        
+        # --- IMAGE MAPPING ---
         image_map = {
             "Cloud City": "assets/cloudcity.jpg",
-            "Peppa's Muddy Puddles": "assets/peppa.png", 
-            "Ninja Village": "assets/ninja.png",
-            "Arendelle (Elsa & Anna)": "assets/frozen.jpg",
-            "Pokemon Training": "assets/pokemon.jpg"
+            "Peppa's Muddy Puddles": "assets/peppa pig.jpg", # Added the space to match your file
+            "Arendelle (Elsa & Anna)": "assets/elsa & anna.jpg",
+            "Pokemon Training": "assets/pokemon.jpg",
+            "Ninja Village": "assets/ninja.jpg"
         }
         img_path = image_map.get(world)
         
