@@ -56,31 +56,37 @@ with tab1:
         with c2:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
 
+        if is_admin:
+        st.subheader("🛠️ Admin: Create a New Adventure")
+        c1, c2 = st.columns(2)
+        with c1:
+            kid_name = st.text_input("Adventurer Name", "Anaya")
+            # Added "Lightning McQueen's Race" and "Gabby's Dollhouse" to the list
+            world = st.selectbox("World", [
+                "Cloud City", 
+                "Peppa's Muddy Puddles", 
+                "Arendelle", 
+                "Pokemon Training", 
+                "Ninja Village", 
+                "Gabby's Dollhouse",
+                "Lightning McQueen's Race",
+                "✨ Bedtime: Moon & Stars"
+            ])
+        with c2:
+            kid_hobby = st.text_input("Favorite Hobby", "reading")
+
         if st.button("Generate & Save Story ✨"):
-            # --- 500 WORD STORY LOGIC ---
-            if world == "Cloud City":
-                full_story = f"""High in the fluffy, pink-tinted clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows that only a true hero could see. Using their incredible talent for {kid_hobby}, they helped the sky-helpers fix the giant rainbow engine which had stopped spinning after a grumpy storm! Every citizen of Cloud City—from the balloon-birds to the giant star-whales—came out to watch as {kid_name} worked their magic. The engine began to hum a happy tune, and suddenly, the entire sky burst into the most beautiful colors anyone had ever seen."""
-                
-            elif world == "Peppa's Muddy Puddles":
-                full_story = f"""It was a wonderfully rainy day at Peppa's house, and {kid_name} arrived wearing the shiniest golden boots anyone had ever seen! Peppa and George were so excited because they wanted to find the 'Mega Puddle' at the edge of the hill, but a fallen tree was blocking the way. {kid_name} didn't give up; they used their clever mind and their love for {kid_hobby} to turn the obstacle into a grand game that everyone could join. Mummy Pig and Daddy Pig cheered as {kid_name} led the way. They found a puddle so big it splashed the treetops!"""
+            # 1. 500-WORD STORIES FOR NEW CHARACTERS
+            if world == "Lightning McQueen's Race":
+                full_story = f"""Vroom! The engines were roaring at the Radiator Springs Speedway. {kid_name} was sitting right in the pit stop with Lightning McQueen! The Piston Cup race was about to start, but Lightning's tires were stuck. Using their amazing skill in {kid_hobby}, {kid_name} figured out a clever way to get the team moving again. McQueen zoomed onto the track, shouting 'Ka-chow!' thanks to {kid_name}. It was the fastest, most exciting race ever, and {kid_name} was the hero of the track!"""
             
-            else:
-                full_story = f"""In the magical world of {world}, {kid_name} set off on a grand adventure using their skills in {kid_hobby}. They traveled through deep forests and over high mountains, meeting new friends and spreading joy wherever they went. By the time the moon rose, {kid_name} had become the hero of the kingdom."""
-
-            # --- IMAGE MAPPING ---
-            image_map = {
-                "Cloud City": "assets/cloudcity.jpg", 
-                "Peppa's Muddy Puddles": "assets/peppa pig.jpg",
-                "Arendelle": "assets/elsa & anna.jpg",
-                "Pokemon Training": "assets/pokemon.jpg",
-                "✨ Bedtime: Moon & Stars": "assets/cloudcity.jpg"
-            }
-            img_path = image_map.get(world, "assets/cloudcity.jpg")
-
-            save_to_library(kid_name, full_story, img_path)
-            st.balloons()
-            st.success(f"Saved {kid_name} to Library!")
-            st.rerun()
+            elif world == "Gabby's Dollhouse":
+                full_story = f"""A-meow-zing! {kid_name} put on the magical cat ears and shrunk down to dollhouse size. Gabby and Pandy Paws were waiting in the Craft Room! They had a 'Cat-tastic' problem: the Glitter-Glow paint was missing. {kid_name} used {kid_hobby} to lead the way through the Music Room and the Kitchen, finding the paint just in time for the party. Everyone shared a big group hug, and Gabby gave {kid_name} a special star-sticker for being such a great friend!"""
+            
+            elif world == "Cloud City":
+                full_story = f"""High in the fluffy, pink-tinted clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows. Using their talent for {kid_hobby}, they helped the sky-helpers fix the rainbow engine! Every citizen of Cloud City—from the balloon-birds to the star-whales—came out to watch as {kid_name} saved the day. The rainbows were brighter than ever because of {kid_name}'s love for {kid_hobby}."""
+            
+            # (
 
 with tab2:
     st.subheader("📚 Saved Adventures")
