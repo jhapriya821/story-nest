@@ -45,11 +45,32 @@ st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h
 tab1, tab2 = st.tabs(["✨ Create Magic", "📚 My Library"])
 
 with tab1:
-    # --- 1. THIS IS FOR THE READERS (Visible to everyone) ---
+    # 1. WELCOME SECTION (Everyone sees this)
     st.markdown("## 🌤️ Welcome to the Story Nest!")
     st.write("Step into a world of magic where **your child is the hero**.")
+    
+    # 2. THE REQUEST BOX (New! Everyone sees this)
+    with st.expander("✨ Request a Story for your Child"):
+        guest_name = st.text_input("Child's Name", key="guest_n")
+        guest_interest = st.text_input("What do they love? (e.g. Dinosaurs)", key="guest_i")
+        if st.button("Send Request"):
+            st.success(f"Got it! Check the Library in 24 hours to see {guest_name}'s adventure!")
+    
     st.info("👈 **Readers:** Click on the **📚 My Library** tab at the top to find your saved stories!")
     st.divider()
+
+    # 3. ADMIN SECTION (Only shows when password is correct)
+    if is_admin:
+        st.subheader("🛠️ Admin: Create a New Adventure")
+        c1, c2 = st.columns(2)
+        with c1:
+            kid_name = st.text_input("Adventurer Name", "Anaya")
+            world = st.selectbox("World", ["Cloud City", "Peppa's Muddy Puddles", "Arendelle", "Pokemon Training", "Ninja Village"])
+        with c2:
+            kid_hobby = st.text_input("Favorite Hobby", "reading")
+    # --- 3. ADMIN SECTION (Hidden) ---
+    if is_admin:
+        # ... (Your admin code for generating stories)
 
     # --- 2. THIS IS FOR THE ADMIN (Hidden until you log in) ---
     if is_admin:
