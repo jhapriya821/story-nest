@@ -45,7 +45,15 @@ st.markdown('<h1 style="text-align:center; color:#0284c7;">🌤️ Story Nest</h
 tab1, tab2 = st.tabs(["✨ Create Magic", "📚 My Library"])
 
 with tab1:
+    # --- 1. THIS IS FOR THE READERS (Visible to everyone) ---
+    st.markdown("## 🌤️ Welcome to the Story Nest!")
+    st.write("Step into a world of magic where **your child is the hero**.")
+    st.info("👈 **Readers:** Click on the **📚 My Library** tab at the top to find your saved stories!")
+    st.divider()
+
+    # --- 2. THIS IS FOR THE ADMIN (Hidden until you log in) ---
     if is_admin:
+        st.subheader("🛠️ Admin: Create a New Adventure")
         c1, c2 = st.columns(2)
         with c1:
             kid_name = st.text_input("Adventurer Name", "Anaya")
