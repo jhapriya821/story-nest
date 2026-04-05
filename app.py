@@ -56,19 +56,18 @@ with tab1:
         with c2:
             kid_hobby = st.text_input("Favorite Hobby", "reading")
 
-        # --- THE BUTTON ---
         if st.button("Generate & Save Story ✨"):
-            # 1. Logic (Long stories included)
+            # --- 500 WORD STORY LOGIC ---
             if world == "Cloud City":
-                full_story = f"High in the fluffy clouds of {world}, {kid_name} used their {kid_hobby} skills to save the day! Everyone in the sky-kingdom cheered for the hero."
+                full_story = f"""High in the fluffy, pink-tinted clouds of {world}, {kid_name} discovered a secret path made of shimmering rainbows that only a true hero could see. Using their incredible talent for {kid_hobby}, they helped the sky-helpers fix the giant rainbow engine which had stopped spinning after a grumpy storm! Every citizen of Cloud City—from the balloon-birds to the giant star-whales—came out to watch as {kid_name} worked their magic. The engine began to hum a happy tune, and suddenly, the entire sky burst into the most beautiful colors anyone had ever seen."""
+                
             elif world == "Peppa's Muddy Puddles":
-                full_story = f"It was a rainy day at Peppa's house, and {kid_name} arrived to play {kid_hobby} in the muddy puddles! Splat! It was the best day ever."
-            elif world == "✨ Bedtime: Moon & Stars":
-                full_story = f"The stars twinkled as {kid_name} used {kid_hobby} to light up the night. Now, it's time for sleep. Goodnight, {kid_name}!"
+                full_story = f"""It was a wonderfully rainy day at Peppa's house, and {kid_name} arrived wearing the shiniest golden boots anyone had ever seen! Peppa and George were so excited because they wanted to find the 'Mega Puddle' at the edge of the hill, but a fallen tree was blocking the way. {kid_name} didn't give up; they used their clever mind and their love for {kid_hobby} to turn the obstacle into a grand game that everyone could join. Mummy Pig and Daddy Pig cheered as {kid_name} led the way. They found a puddle so big it splashed the treetops!"""
+            
             else:
-                full_story = f"In {world}, {kid_name} went on a grand {kid_hobby} adventure! It was a day they would never forget."
+                full_story = f"""In the magical world of {world}, {kid_name} set off on a grand adventure using their skills in {kid_hobby}. They traveled through deep forests and over high mountains, meeting new friends and spreading joy wherever they went. By the time the moon rose, {kid_name} had become the hero of the kingdom."""
 
-            # 2. Image Mapping
+            # --- IMAGE MAPPING ---
             image_map = {
                 "Cloud City": "assets/cloudcity.jpg", 
                 "Peppa's Muddy Puddles": "assets/peppa pig.jpg",
@@ -78,7 +77,6 @@ with tab1:
             }
             img_path = image_map.get(world, "assets/cloudcity.jpg")
 
-            # 3. SAVE ACTIONS (INDENTED CORRECTLY)
             save_to_library(kid_name, full_story, img_path)
             st.balloons()
             st.success(f"Saved {kid_name} to Library!")
@@ -94,14 +92,17 @@ with tab2:
 
     for sid, name, story, path in rows:
         with st.expander(f"📖 {name}'s Adventure"):
-            st.write(story)
-            if path and os.path.exists(path):
-                st.image(path, width=300)
-            if is_admin:
-                if st.button(f"🗑️ Delete {name}", key=f"del_{sid}"):
-                    conn = sqlite3.connect(DB_FILE)
-                    c = conn.cursor()
-                    c.execute("DELETE FROM library WHERE id = ?", (sid,))
-                    conn.commit()
-                    conn.close()
-                    st.rerun()
+            col_l, col_r = st.columns([2, 1])
+            with col_l:
+                st.write(story)
+                if is_admin:
+                    if st.button(f"🗑️ Delete {name}", key=f"del_{sid}"):
+                        conn = sqlite3.connect(DB_FILE)
+                        c = conn.cursor()
+                        c.execute("DELETE FROM library WHERE id = ?", (sid,))
+                        conn.commit()
+                        conn.close()
+                        st.rerun()
+            with col_r:
+                if os.path.exists(path):
+                    st.image(path)
